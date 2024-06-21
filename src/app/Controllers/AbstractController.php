@@ -4,9 +4,11 @@ namespace App\Controllers;
 
 abstract class AbstractController
 {
-    public function __construct(protected ?\PDO $dbConnection)
+    protected ?\PDO $dbConnection;
+
+    public function __construct()
     {
-        //
+        $this->dbConnection = \App\DatabaseConnection::getInstance();
     }
 
     abstract public function handle(array $params = []): string|bool;
