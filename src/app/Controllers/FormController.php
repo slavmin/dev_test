@@ -2,16 +2,9 @@
 
 namespace App\Controllers;
 
-use App\PageTemplateBuilder;
-
-class FormController
+class FormController extends AbstractController
 {
-    public function __construct(protected ?\PDO $dbConnection, protected PageTemplateBuilder $pageTemplateBuilder)
-    {
-        //
-    }
-
-    public function __invoke(): string
+    public function handle(array $params = []): string
     {
         $content = \App\PageTemplateBuilder::makeForm();
 

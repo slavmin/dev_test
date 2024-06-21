@@ -2,16 +2,9 @@
 
 namespace App\Controllers;
 
-use App\PageTemplateBuilder;
-
-class GetController
+class GetController extends AbstractController
 {
-    public function __construct(protected ?\PDO $dbConnection, protected PageTemplateBuilder $pageTemplateBuilder)
-    {
-        //
-    }
-
-    public function __invoke(array $params): string
+    public function handle(array $params = []): string
     {
         $in = str_repeat('?,', count($params) - 1) . '?';
         $select = 'user.first_name, user.second_name, products.title, products.price';

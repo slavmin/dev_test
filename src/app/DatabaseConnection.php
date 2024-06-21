@@ -2,7 +2,7 @@
 
 namespace App;
 
-class DatabaseConnection
+final class DatabaseConnection
 {
     private static ?\PDO $dbInstance = null;
 

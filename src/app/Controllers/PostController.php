@@ -2,17 +2,9 @@
 
 namespace App\Controllers;
 
-use App\PageTemplateBuilder;
-use http\Exception\InvalidArgumentException;
-
-class PostController
+class PostController extends AbstractController
 {
-    public function __construct(protected ?\PDO $dbConnection, protected PageTemplateBuilder $pageTemplateBuilder)
-    {
-        //
-    }
-
-    public function __invoke(array $params): bool
+    public function handle(array $params = []): bool
     {
         $data = [];
 

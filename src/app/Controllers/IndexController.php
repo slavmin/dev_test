@@ -2,16 +2,9 @@
 
 namespace App\Controllers;
 
-use App\PageTemplateBuilder;
-
-class IndexController
+class IndexController extends AbstractController
 {
-    public function __construct(protected ?\PDO $dbConnection, protected PageTemplateBuilder $pageTemplateBuilder)
-    {
-        //
-    }
-
-    public function __invoke(): string
+    public function handle(array $params = []): string
     {
         $select = 'user.first_name, user.second_name, products.title, products.price';
 
