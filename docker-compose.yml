@@ -1,0 +1,70 @@
+networks:
+  shared:
+    external: false
+
+services:
+  site:
+    build:
+      context: .
+      dockerfile: nginx.dockerfile
+    container_name: nginx
+    ports:
+      - 8080:80
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./src:/var/www/html:delegated
+    depends_on:
+      - php
+      - mysql
+      - phpmyadmin
+    networks:
+      - shared
+
+  php:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    container_name: php
+    environment:
+      PHP_MEMORY_LIMIT: 256M
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./src:/var/www/html:delegated
+    networks:
+      - shared
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: developer
+      MYSQL_USER: developer
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+      - ./docker/mysql/dumps:/docker-entrypoint-initdb.d
+    networks:
+      - shared
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      UPLOAD_LIMIT: 256M
+      MYSQL_ROOT_PASSWORD: secret
+    ports:
+      - 8081:80
+    networks:
+      - shared
