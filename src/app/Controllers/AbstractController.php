@@ -11,5 +11,5 @@ abstract class AbstractController
         $this->dbConnection = \App\DatabaseConnection::getInstance();
     }
 
-    abstract public function handle(array $params = []): string|bool;
+    abstract public function handle(array $params = []): string|bool|null;
 }
